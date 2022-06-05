@@ -15,6 +15,9 @@
 		2970E32B284CF81500366CD7 /* ClashUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E32A284CF81500366CD7 /* ClashUIUITests.swift */; };
 		2970E32D284CF81500366CD7 /* ClashUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E32C284CF81500366CD7 /* ClashUIUITestsLaunchTests.swift */; };
 		2970E33B284CFD2D00366CD7 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E33A284CFD2D00366CD7 /* Sidebar.swift */; };
+		2970E33E284D04C300366CD7 /* ClashClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E33D284D04C300366CD7 /* ClashClient.swift */; };
+		2970E340284D09DA00366CD7 /* SidebarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E33F284D09DA00366CD7 /* SidebarSection.swift */; };
+		2970E342284D127400366CD7 /* VersionPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E341284D127400366CD7 /* VersionPopover.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		2970E32A284CF81500366CD7 /* ClashUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashUIUITests.swift; sourceTree = "<group>"; };
 		2970E32C284CF81500366CD7 /* ClashUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2970E33A284CFD2D00366CD7 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
+		2970E33D284D04C300366CD7 /* ClashClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashClient.swift; sourceTree = "<group>"; };
+		2970E33F284D09DA00366CD7 /* SidebarSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSection.swift; sourceTree = "<group>"; };
+		2970E341284D127400366CD7 /* VersionPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionPopover.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 			children = (
 				2970E30E284CF81300366CD7 /* ClashUIApp.swift */,
 				2970E339284CFA9500366CD7 /* Views */,
+				2970E33C284D04B000366CD7 /* ViewModels */,
 				2970E312284CF81500366CD7 /* Assets.xcassets */,
 				2970E317284CF81500366CD7 /* ClashUI.entitlements */,
 				2970E314284CF81500366CD7 /* Preview Content */,
@@ -136,8 +143,18 @@
 			children = (
 				2970E310284CF81300366CD7 /* MainView.swift */,
 				2970E33A284CFD2D00366CD7 /* Sidebar.swift */,
+				2970E33F284D09DA00366CD7 /* SidebarSection.swift */,
+				2970E341284D127400366CD7 /* VersionPopover.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2970E33C284D04B000366CD7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2970E33D284D04C300366CD7 /* ClashClient.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,6 +289,9 @@
 			files = (
 				2970E311284CF81300366CD7 /* MainView.swift in Sources */,
 				2970E33B284CFD2D00366CD7 /* Sidebar.swift in Sources */,
+				2970E342284D127400366CD7 /* VersionPopover.swift in Sources */,
+				2970E340284D09DA00366CD7 /* SidebarSection.swift in Sources */,
+				2970E33E284D04C300366CD7 /* ClashClient.swift in Sources */,
 				2970E30F284CF81300366CD7 /* ClashUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

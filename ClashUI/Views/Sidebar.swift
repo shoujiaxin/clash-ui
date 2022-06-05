@@ -7,67 +7,17 @@
 
 import SwiftUI
 
-struct Sidebar: View {
-    @State private var selection: String? = "Overview"
+// TODO: Edit by user
+let clients = [
+    ClashClient(host: "127.0.0.1", port: 9090),
+    ClashClient(host: "tower.local", port: 9090),
+]
 
+struct Sidebar: View {
     var body: some View {
         VStack {
-            // TODO: Multi backends
-            List {
-                Section {
-                    NavigationLink(tag: "Overview", selection: $selection) {
-                        Text("Overview")
-                            .navigationTitle("Overview")
-                    } label: {
-                        Label("Overview", systemImage: "chart.xyaxis.line")
-                    }
-
-                    NavigationLink(tag: "Proxies", selection: $selection) {
-                        Text("Proxies")
-                            .navigationTitle("Proxies")
-                    } label: {
-                        Label("Proxies", systemImage: "network")
-                    }
-
-                    NavigationLink(tag: "Rules", selection: $selection) {
-                        Text("Rules")
-                            .navigationTitle("Rules")
-                    } label: {
-                        Label("Rules", systemImage: "ruler")
-                    }
-
-                    NavigationLink(tag: "Connections", selection: $selection) {
-                        Text("Connections")
-                            .navigationTitle("Connections")
-                    } label: {
-                        Label("Connections", systemImage: "app.connected.to.app.below.fill")
-                    }
-
-                    NavigationLink(tag: "Settings", selection: $selection) {
-                        Text("Settings")
-                            .navigationTitle("Settings")
-                    } label: {
-                        Label("Settings", systemImage: "gearshape")
-                    }
-
-                    NavigationLink(tag: "Logs", selection: $selection) {
-                        Text("Logs")
-                            .navigationTitle("Logs")
-                    } label: {
-                        Label("Logs", systemImage: "doc.text")
-                    }
-                } header: {
-                    HStack {
-                        Text("backend")
-
-                        Button {
-                            // TODO: Get version
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
+            List(clients) { client in
+                SidebarSection(client: client)
             }
 
             Spacer()
