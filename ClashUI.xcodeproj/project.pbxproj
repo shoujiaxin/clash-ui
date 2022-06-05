@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2970E30F284CF81300366CD7 /* ClashUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E30E284CF81300366CD7 /* ClashUIApp.swift */; };
-		2970E311284CF81300366CD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E310284CF81300366CD7 /* ContentView.swift */; };
+		2970E311284CF81300366CD7 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E310284CF81300366CD7 /* MainView.swift */; };
 		2970E313284CF81500366CD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2970E312284CF81500366CD7 /* Assets.xcassets */; };
 		2970E316284CF81500366CD7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2970E315284CF81500366CD7 /* Preview Assets.xcassets */; };
 		2970E321284CF81500366CD7 /* ClashUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970E320284CF81500366CD7 /* ClashUITests.swift */; };
@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		2970E30B284CF81300366CD7 /* ClashUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClashUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2970E30E284CF81300366CD7 /* ClashUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashUIApp.swift; sourceTree = "<group>"; };
-		2970E310284CF81300366CD7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2970E310284CF81300366CD7 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		2970E312284CF81500366CD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2970E315284CF81500366CD7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2970E317284CF81500366CD7 /* ClashUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClashUI.entitlements; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				2970E30E284CF81300366CD7 /* ClashUIApp.swift */,
-				2970E310284CF81300366CD7 /* ContentView.swift */,
+				2970E339284CFA9500366CD7 /* Views */,
 				2970E312284CF81500366CD7 /* Assets.xcassets */,
 				2970E317284CF81500366CD7 /* ClashUI.entitlements */,
 				2970E314284CF81500366CD7 /* Preview Content */,
@@ -127,6 +127,14 @@
 				2970E32C284CF81500366CD7 /* ClashUIUITestsLaunchTests.swift */,
 			);
 			path = ClashUIUITests;
+			sourceTree = "<group>";
+		};
+		2970E339284CFA9500366CD7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2970E310284CF81300366CD7 /* MainView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,7 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2970E311284CF81300366CD7 /* ContentView.swift in Sources */,
+				2970E311284CF81300366CD7 /* MainView.swift in Sources */,
 				2970E30F284CF81300366CD7 /* ClashUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
