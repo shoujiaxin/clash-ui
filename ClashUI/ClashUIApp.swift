@@ -13,5 +13,8 @@ struct ClashUIApp: App {
         WindowGroup {
             MainView()
         }
+        .commands {
+            SidebarCommands()
+        }
     }
 }

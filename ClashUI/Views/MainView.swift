@@ -9,8 +9,22 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            Sidebar()
+                .frame(minWidth: 160)
+                .toolbar {
+                    Button(action: toggleSidebar) {
+                        Image(systemName: "sidebar.left")
+                    }
+                }
+
+            // TODO: Default view
+            Text("Hi there")
+        }
+    }
+
+    private func toggleSidebar() {
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }
 
