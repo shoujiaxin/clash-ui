@@ -85,9 +85,9 @@ extension Backend {
 
             let destinationIP: String
 
-            let sourcePort: Int
+            let sourcePort: String
 
-            let destinationPort: Int
+            let destinationPort: String
 
             let host: String
 
@@ -102,7 +102,7 @@ extension Backend {
 
         let download: Int
 
-        let start: Date
+        let start: String
 
         let chains: [String]
 
