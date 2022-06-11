@@ -46,6 +46,7 @@ struct NewBackendView: View {
     }
 
     private func addBackend() {
+        // TODO: De-duplication
         guard Backend(context: viewContext,
                       index: try? viewContext.count(for: Backend.fetchRequest()),
                       host: host,
