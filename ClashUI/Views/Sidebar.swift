@@ -11,11 +11,13 @@ struct Sidebar: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.index)])
     private var backends: FetchedResults<Backend>
 
+    @State private var selection: String? = nil
+
     var body: some View {
         VStack {
             if !backends.isEmpty {
                 List(backends) { backend in
-                    SidebarSection(backend: backend)
+                    SidebarSection(backend: backend, selection: $selection)
                 }
             }
 
@@ -23,7 +25,7 @@ struct Sidebar: View {
 
             HStack {
                 Button {
-                    // TODO: Add new backend
+                    selection = nil
                 } label: {
                     Label("New Backend", systemImage: "plus.circle")
                 }

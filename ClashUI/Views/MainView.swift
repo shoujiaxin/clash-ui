@@ -18,8 +18,7 @@ struct MainView: View {
                     }
                 }
 
-            // TODO: Default view
-            Text("Hi there")
+            NewBackendView()
         }
     }
 

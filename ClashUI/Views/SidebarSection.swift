@@ -10,48 +10,50 @@ import SwiftUI
 struct SidebarSection: View {
     let backend: Backend
 
+    @Binding var selection: String?
+
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var isVersionPresented = false
 
     var body: some View {
         Section {
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Overview", selection: $selection) {
                 Text("Overview")
                     .navigationTitle("Overview")
             } label: {
                 Label("Overview", systemImage: "chart.xyaxis.line")
             }
 
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Proxies", selection: $selection) {
                 Text("Proxies")
                     .navigationTitle("Proxies")
             } label: {
                 Label("Proxies", systemImage: "network")
             }
 
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Rules", selection: $selection) {
                 Text("Rules")
                     .navigationTitle("Rules")
             } label: {
                 Label("Rules", systemImage: "ruler")
             }
 
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Connections", selection: $selection) {
                 Text("Connections")
                     .navigationTitle("Connections")
             } label: {
                 Label("Connections", systemImage: "app.connected.to.app.below.fill")
             }
 
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Settings", selection: $selection) {
                 Text("Settings")
                     .navigationTitle("Settings")
             } label: {
                 Label("Settings", systemImage: "gearshape")
             }
 
-            NavigationLink {
+            NavigationLink(tag: "\(backend.id)-Logs", selection: $selection) {
                 Text("Logs")
                     .navigationTitle("Logs")
             } label: {
@@ -105,7 +107,7 @@ struct SidebarSection_Previews: PreviewProvider {
         return NavigationView {
             VStack {
                 List {
-                    SidebarSection(backend: backend!)
+                    SidebarSection(backend: backend!, selection: .constant(nil))
                 }
             }
             .frame(width: 180)
