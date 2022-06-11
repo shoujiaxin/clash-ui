@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var mode: String = "Rule"
+
+    @State private var logLevel: String = "Warning"
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Form {
+            Picker("Mode", selection: $mode) {
+                Text("Rule").tag("Rule")
+                Text("Global").tag("Global")
+                Text("Direct").tag("Direct")
+            }
+            .pickerStyle(.segmented)
+
+            Picker("Log Level", selection: $logLevel) {
+                Text("Info").tag("Info")
+                Text("Warning").tag("Warning")
+                Text("Error").tag("Error")
+                Text("Debug").tag("Debug")
+                Text("Silent").tag("Silent")
+            }
+            .pickerStyle(.segmented)
+        }
+        .padding()
+        .frame(width: 400)
     }
 }
 
