@@ -8,17 +8,25 @@
 import SwiftUI
 
 struct ConnectionsView: View {
+    @EnvironmentObject private var backend: Backend
+
+    @State private var connections: [Backend.Connection] = []
+
     var body: some View {
-        List {
-            Section {} header: {
-                header
-            }
+        Table(connections) {
+            TableColumn("Host", value: \.metadata.host)
+            TableColumn("Network", value: \.metadata.network)
         }
         .toolbar {
             Button {
                 // TODO: Close all connections
             } label: {
                 Image(systemName: "xmark.circle")
+            }
+        }
+        .onAppear {
+            Task {
+                connections = try await backend.getConnections()
             }
         }
     }

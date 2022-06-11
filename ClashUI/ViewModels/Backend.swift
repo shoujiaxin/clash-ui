@@ -66,6 +66,20 @@ extension Backend {
         isPremium = info.premium
         version = info.version
     }
+
+    func getConnections() async throws -> [Connection] {
+        // TODO: Use WebSocket
+        guard let url = url?.appendingPathComponent("connections") else {
+            return []
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200 ..< 300 ~= statusCode else {
+            return []
+        }
+
+        return try JSONDecoder().decode(Connections.self, from: data).connections
+    }
 }
 
 extension Backend {
@@ -75,7 +89,15 @@ extension Backend {
         let version: String
     }
 
-    struct Connection: Codable {
+    private struct Connections: Codable {
+        let downloadTotal: Int
+
+        let uploadTotal: Int
+
+        let connections: [Connection]
+    }
+
+    struct Connection: Codable, Identifiable {
         struct Metadata: Codable {
             let network: String
 

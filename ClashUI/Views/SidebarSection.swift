@@ -33,6 +33,7 @@ struct SidebarSection: View {
                     // TODO: Tab contents
                     if tab.name == "Connections" {
                         ConnectionsView()
+                            .environmentObject(backend)
                     } else {
                         Text(tab.name)
                             .navigationTitle(tab.name)
