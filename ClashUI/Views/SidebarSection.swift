@@ -30,8 +30,13 @@ struct SidebarSection: View {
         Section {
             ForEach(tabs, id: \.name) { tab in
                 NavigationLink(tag: "\(backend.id)-\(tab.name)", selection: $selection) {
-                    Text(tab.name)
-                        .navigationTitle(tab.name)
+                    // TODO: Tab contents
+                    if tab.name == "Connections" {
+                        ConnectionsView()
+                    } else {
+                        Text(tab.name)
+                            .navigationTitle(tab.name)
+                    }
                 } label: {
                     Label(tab.name, systemImage: tab.iconName)
                 }
