@@ -48,7 +48,7 @@ struct SidebarSection: View {
         }
         .onAppear {
             Task {
-                try await backend.updateVersion()
+                try await backend.getVersion()
             }
         }
     }

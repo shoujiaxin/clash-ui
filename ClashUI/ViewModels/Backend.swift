@@ -52,7 +52,7 @@ extension Backend {
         return URL(string: "ws://\(host):\(port)")
     }
 
-    func updateVersion() async throws {
+    func getVersion() async throws {
         guard let url = url?.appendingPathComponent("version") else {
             return
         }
