@@ -38,11 +38,18 @@ extension Backend {
         self.port = Int32(port)
     }
 
-    var url: URL? {
+    private var url: URL? {
         guard let host = host else {
             return nil
         }
         return URL(string: "http://\(host):\(port)")
+    }
+
+    private var webSocketURL: URL? {
+        guard let host = host else {
+            return nil
+        }
+        return URL(string: "ws://\(host):\(port)")
     }
 
     func updateVersion() async throws {
@@ -61,10 +68,44 @@ extension Backend {
     }
 }
 
-// MARK: - Version
+extension Backend {
+    private struct Version: Codable {
+        let premium: Bool
 
-private struct Version: Codable {
-    let premium: Bool
+        let version: String
+    }
 
-    let version: String
+    struct Connection: Codable {
+        struct Metadata: Codable {
+            let network: String
+
+            let type: String
+
+            let sourceIP: String
+
+            let destinationIP: String
+
+            let sourcePort: Int
+
+            let destinationPort: Int
+
+            let host: String
+
+            let dnsMode: String
+        }
+
+        let id: UUID
+
+        let metadata: Metadata
+
+        let upload: Int
+
+        let download: Int
+
+        let start: Date
+
+        let chains: [String]
+
+        let rule: String
+    }
 }
