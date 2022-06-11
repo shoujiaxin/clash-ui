@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Backend" representedClassName="Backend" syncable="YES" codeGenerationType="class">
+        <attribute name="host" attributeType="String"/>
+        <attribute name="index" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isPremium" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="port" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="version" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Backend" positionX="-63" positionY="-18" width="128" height="104"/>
+    </elements>
+</model>

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct SidebarSection: View {
-    let client: ClashClient
+    let backend: Backend
+
+    @Environment(\.managedObjectContext) private var viewContext
 
     @State private var isVersionPresented = false
 
@@ -57,7 +59,7 @@ struct SidebarSection: View {
             }
         } header: {
             HStack {
-                Text(client.url.host ?? "")
+                Text("\(backend.host ?? ""):\(backend.port)")
 
                 Button {
                     isVersionPresented.toggle()
@@ -66,8 +68,25 @@ struct SidebarSection: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $isVersionPresented) {
-                    VersionPopover(isPremium: client.isPremium, version: client.version)
+                    VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
                 }
+
+                Spacer()
+            }
+            .contentShape(Rectangle())
+            .contextMenu {
+                Button {
+                    viewContext.delete(backend)
+                    try? viewContext.save()
+                } label: {
+                    Text("Remove")
+                }
+                .keyboardShortcut("d", modifiers: .command)
+            }
+        }
+        .onAppear {
+            Task {
+                try await backend.updateVersion()
             }
         }
     }
@@ -75,10 +94,18 @@ struct SidebarSection: View {
 
 struct SidebarSection_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        let viewContext = PersistenceController.preview.container.viewContext
+        let request = Backend.fetchRequest()
+        request.fetchLimit = 1
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Backend.index, ascending: true),
+        ]
+        let backend = try? viewContext.fetch(request).first
+
+        return NavigationView {
             VStack {
                 List {
-                    SidebarSection(client: ClashClient(host: "127.0.0.1", port: 9090))
+                    SidebarSection(backend: backend!)
                 }
             }
             .frame(width: 180)

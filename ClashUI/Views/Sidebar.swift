@@ -7,17 +7,16 @@
 
 import SwiftUI
 
-// TODO: Edit by user
-let clients = [
-    ClashClient(host: "127.0.0.1", port: 9090),
-    ClashClient(host: "tower.local", port: 9090),
-]
-
 struct Sidebar: View {
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.index)])
+    private var backends: FetchedResults<Backend>
+
     var body: some View {
         VStack {
-            List(clients) { client in
-                SidebarSection(client: client)
+            if !backends.isEmpty {
+                List(backends) { backend in
+                    SidebarSection(backend: backend)
+                }
             }
 
             Spacer()
@@ -44,5 +43,6 @@ struct Sidebar_Previews: PreviewProvider {
             Sidebar()
                 .frame(width: 180)
         }
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
