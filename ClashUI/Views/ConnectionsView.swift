@@ -9,14 +9,44 @@ import SwiftUI
 
 struct ConnectionsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .toolbar {
-                Button {
-                    // TODO: Close all connections
-                } label: {
-                    Image(systemName: "xmark.circle")
-                }
+        List {
+            Section {} header: {
+                header
             }
+        }
+        .toolbar {
+            Button {
+                // TODO: Close all connections
+            } label: {
+                Image(systemName: "xmark.circle")
+            }
+        }
+    }
+
+    private var header: some View {
+        HStack(spacing: 20) {
+            Text("Host")
+
+            Text("Chains")
+
+            Text("Rule")
+
+            Text("Speed")
+
+            Text("Upload")
+
+            Text("Download")
+
+            Text("Type")
+
+            Text("Source")
+
+            Text("Destination")
+
+            Text("Time")
+        }
+        .font(.footnote)
+        .foregroundColor(.secondary)
     }
 }
 
