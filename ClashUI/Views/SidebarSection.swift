@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+// TODO: Add view
+private let tabs = [
+    (name: "Overview", iconName: "chart.xyaxis.line"),
+    (name: "Proxies", iconName: "network"),
+    (name: "Rules", iconName: "ruler"),
+    (name: "Connections", iconName: "app.connected.to.app.below.fill"),
+    (name: "Settings", iconName: "gearshape"),
+    (name: "Logs", iconName: "doc.text"),
+]
+
 struct SidebarSection: View {
     let backend: Backend
 
@@ -18,47 +28,16 @@ struct SidebarSection: View {
 
     var body: some View {
         Section {
-            NavigationLink(tag: "\(backend.id)-Overview", selection: $selection) {
-                Text("Overview")
-                    .navigationTitle("Overview")
-            } label: {
-                Label("Overview", systemImage: "chart.xyaxis.line")
+            ForEach(tabs, id: \.name) { tab in
+                NavigationLink(tag: "\(backend.id)-\(tab.name)", selection: $selection) {
+                    Text(tab.name)
+                        .navigationTitle(tab.name)
+                } label: {
+                    Label(tab.name, systemImage: tab.iconName)
+                }
             }
-
-            NavigationLink(tag: "\(backend.id)-Proxies", selection: $selection) {
-                Text("Proxies")
-                    .navigationTitle("Proxies")
-            } label: {
-                Label("Proxies", systemImage: "network")
-            }
-
-            NavigationLink(tag: "\(backend.id)-Rules", selection: $selection) {
-                Text("Rules")
-                    .navigationTitle("Rules")
-            } label: {
-                Label("Rules", systemImage: "ruler")
-            }
-
-            NavigationLink(tag: "\(backend.id)-Connections", selection: $selection) {
-                Text("Connections")
-                    .navigationTitle("Connections")
-            } label: {
-                Label("Connections", systemImage: "app.connected.to.app.below.fill")
-            }
-
-            NavigationLink(tag: "\(backend.id)-Settings", selection: $selection) {
-                Text("Settings")
-                    .navigationTitle("Settings")
-            } label: {
-                Label("Settings", systemImage: "gearshape")
-            }
-
-            NavigationLink(tag: "\(backend.id)-Logs", selection: $selection) {
-                Text("Logs")
-                    .navigationTitle("Logs")
-            } label: {
-                Label("Logs", systemImage: "doc.text")
-            }
+            // Disable the ability to move tab items
+            .onMove(perform: nil)
         } header: {
             HStack {
                 Text("\(backend.host ?? ""):\(backend.port)")

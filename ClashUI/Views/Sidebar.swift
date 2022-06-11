@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Sidebar: View {
+    @Environment(\.managedObjectContext) private var viewContext
+
     @FetchRequest(sortDescriptors: [SortDescriptor(\.index)])
     private var backends: FetchedResults<Backend>
 
@@ -16,8 +18,16 @@ struct Sidebar: View {
     var body: some View {
         VStack {
             if !backends.isEmpty {
-                List(backends) { backend in
-                    SidebarSection(backend: backend, selection: $selection)
+                List {
+                    ForEach(backends) { backend in
+                        SidebarSection(backend: backend, selection: $selection)
+                    }
+                    .onMove { source, destination in
+                        source.first.map { index in
+                            backends[index].index = Int64(destination)
+                            try? viewContext.save()
+                        }
+                    }
                 }
             }
 
