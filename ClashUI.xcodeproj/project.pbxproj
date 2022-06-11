@@ -21,6 +21,7 @@
 		29CE8BF42854833700578DA5 /* ClashUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29CE8BF22854833700578DA5 /* ClashUI.xcdatamodeld */; };
 		29CE8BF628549BD900578DA5 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CE8BF528549BD900578DA5 /* Backend.swift */; };
 		29CE8BF82854AECF00578DA5 /* NewBackendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CE8BF72854AECF00578DA5 /* NewBackendView.swift */; };
+		29CE8BFC2854EB6A00578DA5 /* ConnectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CE8BFB2854EB6A00578DA5 /* ConnectionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		29CE8BF32854833700578DA5 /* ClashUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClashUI.xcdatamodel; sourceTree = "<group>"; };
 		29CE8BF528549BD900578DA5 /* Backend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
 		29CE8BF72854AECF00578DA5 /* NewBackendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBackendView.swift; sourceTree = "<group>"; };
+		29CE8BFB2854EB6A00578DA5 /* ConnectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				2970E33F284D09DA00366CD7 /* SidebarSection.swift */,
 				2970E341284D127400366CD7 /* VersionPopover.swift */,
 				29CE8BF72854AECF00578DA5 /* NewBackendView.swift */,
+				29CE8BFB2854EB6A00578DA5 /* ConnectionsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			files = (
 				29CE8BF628549BD900578DA5 /* Backend.swift in Sources */,
 				2970E311284CF81300366CD7 /* MainView.swift in Sources */,
+				29CE8BFC2854EB6A00578DA5 /* ConnectionsView.swift in Sources */,
 				29CE8BF1285481F500578DA5 /* PersistenceController.swift in Sources */,
 				2970E33B284CFD2D00366CD7 /* Sidebar.swift in Sources */,
 				2970E342284D127400366CD7 /* VersionPopover.swift in Sources */,
