@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+private let defaultHost = "127.0.0.1"
+
+private let defaultPort = "9090"
+
 struct NewBackendView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -19,18 +23,19 @@ struct NewBackendView: View {
     var body: some View {
         VStack(spacing: 20) {
             Form {
-                TextField(text: $host, prompt: Text("127.0.0.1")) {
+                TextField(text: $host, prompt: Text(defaultHost)) {
                     Text("Host")
                 }
 
-                TextField(text: $port, prompt: Text("9090")) {
+                TextField(text: $port, prompt: Text(defaultPort)) {
                     Text("Port")
                 }
 
-                TextField(text: $secret, prompt: Text("Optional")) {
+                SecureField(text: $secret, prompt: Text("Optional")) {
                     Text("Secret")
                 }
             }
+            .textFieldStyle(.roundedBorder)
 
             HStack {
                 Spacer()
@@ -46,6 +51,7 @@ struct NewBackendView: View {
     }
 
     private func addBackend() {
+        // TODO: De-duplication
         guard Backend(context: viewContext,
                       index: try? viewContext.count(for: Backend.fetchRequest()),
                       host: host,

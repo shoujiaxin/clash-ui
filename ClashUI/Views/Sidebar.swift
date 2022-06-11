@@ -17,16 +17,14 @@ struct Sidebar: View {
 
     var body: some View {
         VStack {
-            if !backends.isEmpty {
-                List {
-                    ForEach(backends) { backend in
-                        SidebarSection(backend: backend, selection: $selection)
-                    }
-                    .onMove { source, destination in
-                        source.first.map { index in
-                            backends[index].index = Int64(destination)
-                            try? viewContext.save()
-                        }
+            List {
+                ForEach(backends) { backend in
+                    SidebarSection(backend: backend, selection: $selection)
+                }
+                .onMove { source, destination in
+                    source.first.map { index in
+                        backends[index].index = Int64(destination)
+                        try? viewContext.save()
                     }
                 }
             }

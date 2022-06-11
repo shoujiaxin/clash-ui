@@ -20,6 +20,7 @@ struct VersionPopover: View {
                     .fontWeight(.semibold)
                     .padding(4)
                     .background(RoundedRectangle(cornerRadius: 4).stroke(lineWidth: 1.5))
+                    .shadow(color: .secondary, radius: 2, x: 0, y: 0)
             }
 
             Text("Version: \(version)")

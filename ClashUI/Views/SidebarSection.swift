@@ -27,7 +27,8 @@ struct SidebarSection: View {
     @State private var isVersionPresented = false
 
     var body: some View {
-        Section {
+        // If use Section here, app will crash when deleting the last item
+        DisclosureGroup(isExpanded: .constant(true)) {
             ForEach(tabs, id: \.name) { tab in
                 NavigationLink(tag: "\(backend.id)-\(tab.name)", selection: $selection) {
                     Text(tab.name)
@@ -38,37 +39,42 @@ struct SidebarSection: View {
             }
             // Disable the ability to move tab items
             .onMove(perform: nil)
-        } header: {
-            HStack {
-                Text("\(backend.host ?? ""):\(backend.port)")
-
-                Button {
-                    isVersionPresented.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $isVersionPresented) {
-                    VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
-                }
-
-                Spacer()
-            }
-            .contentShape(Rectangle())
-            .contextMenu {
-                Button {
-                    viewContext.delete(backend)
-                    try? viewContext.save()
-                } label: {
-                    Text("Remove")
-                }
-                .keyboardShortcut("d", modifiers: .command)
-            }
+        } label: {
+            header
         }
         .onAppear {
             Task {
                 try await backend.updateVersion()
             }
+        }
+    }
+
+    private var header: some View {
+        HStack {
+            Text("\(backend.host ?? ""):\(String(backend.port))")
+                .font(.system(size: 11, weight: .medium, design: .default))
+
+            Button {
+                isVersionPresented.toggle()
+            } label: {
+                Image(systemName: "info.circle")
+            }
+            .buttonStyle(.plain)
+            .font(.system(size: 11))
+            .popover(isPresented: $isVersionPresented) {
+                VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
+            }
+        }
+        .foregroundColor(.secondary)
+        .contentShape(Rectangle())
+        .contextMenu {
+            Button {
+                viewContext.delete(backend)
+                try? viewContext.save()
+            } label: {
+                Text("Remove")
+            }
+            .keyboardShortcut("d", modifiers: .command)
         }
     }
 }
