@@ -44,36 +44,40 @@ struct SidebarSection: View {
             // Disable the ability to move tab items
             .onMove(perform: nil)
         } header: {
-            HStack {
-                Text("\(backend.host ?? ""):\(backend.port)")
-
-                Button {
-                    isVersionPresented.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $isVersionPresented) {
-                    VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
-                }
-
-                Spacer()
-            }
-            .contentShape(Rectangle())
-            .contextMenu {
-                Button {
-                    viewContext.delete(backend)
-                    try? viewContext.save()
-                } label: {
-                    Text("Remove")
-                }
-                .keyboardShortcut("d", modifiers: .command)
-            }
+            header
         }
         .onAppear {
             Task {
                 try await backend.updateVersion()
             }
+        }
+    }
+
+    private var header: some View {
+        HStack {
+            Text("\(backend.host ?? ""):\(backend.port)")
+
+            Button {
+                isVersionPresented.toggle()
+            } label: {
+                Image(systemName: "info.circle")
+            }
+            .buttonStyle(.plain)
+            .popover(isPresented: $isVersionPresented) {
+                VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
+            }
+
+            Spacer()
+        }
+        .contentShape(Rectangle())
+        .contextMenu {
+            Button {
+                viewContext.delete(backend)
+                try? viewContext.save()
+            } label: {
+                Text("Remove")
+            }
+            .keyboardShortcut("d", modifiers: .command)
         }
     }
 }
