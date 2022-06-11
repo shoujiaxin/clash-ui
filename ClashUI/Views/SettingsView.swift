@@ -13,22 +13,29 @@ struct SettingsView: View {
     @State private var logLevel: String = "Warning"
 
     var body: some View {
-        Form {
-            Picker("Mode", selection: $mode) {
-                Text("Rule").tag("Rule")
-                Text("Global").tag("Global")
-                Text("Direct").tag("Direct")
-            }
-            .pickerStyle(.segmented)
+        VStack {
+            GroupBox {
+                Form {
+                    Picker("Mode", selection: $mode) {
+                        Text("Rule").tag("Rule")
+                        Text("Global").tag("Global")
+                        Text("Direct").tag("Direct")
+                    }
+                    .pickerStyle(.segmented)
 
-            Picker("Log Level", selection: $logLevel) {
-                Text("Info").tag("Info")
-                Text("Warning").tag("Warning")
-                Text("Error").tag("Error")
-                Text("Debug").tag("Debug")
-                Text("Silent").tag("Silent")
+                    Picker("Log Level", selection: $logLevel) {
+                        Text("Info").tag("Info")
+                        Text("Warning").tag("Warning")
+                        Text("Error").tag("Error")
+                        Text("Debug").tag("Debug")
+                        Text("Silent").tag("Silent")
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .padding()
             }
-            .pickerStyle(.segmented)
+
+            GroupBox {}
         }
         .padding()
         .frame(width: 400)

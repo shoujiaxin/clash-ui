@@ -30,8 +30,12 @@ struct SidebarSection: View {
         Section {
             ForEach(tabs, id: \.name) { tab in
                 NavigationLink(tag: "\(backend.id)-\(tab.name)", selection: $selection) {
-                    Text(tab.name)
-                        .navigationTitle(tab.name)
+                    if tab.name == "Settings" {
+                        SettingsView()
+                    } else {
+                        Text(tab.name)
+                            .navigationTitle(tab.name)
+                    }
                 } label: {
                     Label(tab.name, systemImage: tab.iconName)
                 }
