@@ -69,8 +69,14 @@ struct SidebarSection: View {
         .contentShape(Rectangle())
         .contextMenu {
             Button {
-                viewContext.delete(backend)
-                try? viewContext.save()
+                if selection?.starts(with: "\(backend.id)") == true {
+                    selection = nil
+                }
+                // Add this animation to make the changes to selection take effect
+                withAnimation(.easeInOut) {
+                    viewContext.delete(backend)
+                    try? viewContext.save()
+                }
             } label: {
                 Text("Remove")
             }
