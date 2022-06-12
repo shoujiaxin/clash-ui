@@ -37,14 +37,13 @@ struct NewBackendView: View {
                 TextField("Host", text: $host, prompt: Text("Required"))
                     .focused($isHostFocused)
                     .popover(isPresented: $isHostErrorPresented, arrowEdge: .trailing) {
-                        HStack {
-                            Image(systemName: "xmark.diamond")
-                                .foregroundColor(.red)
-                                .font(.title)
-
+                        Label {
                             Text("Host Error")
+                        } icon: {
+                            Image(systemName: "xmark.diamond.fill")
+                                .foregroundColor(.red)
                         }
-                        .padding(12)
+                        .padding(10)
                     }
 
                 TextField("Port", value: $port, formatter: portFormatter, prompt: Text("Required"))
