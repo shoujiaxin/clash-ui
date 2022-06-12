@@ -50,9 +50,10 @@ struct NewBackendView: View {
                 TextField("Port", value: $port, formatter: portFormatter, prompt: Text("Required"))
                     .focused($isPortFocused)
 
-                // FIXME: An empty view shows up with SecureField
                 SecureField("Secret", text: $secret, prompt: Text("Optional"))
-                    .textContentType(.oneTimeCode)
+                    // Set the content type to .password to avoid empty popover bug
+                    // https://stackoverflow.com/questions/71127439/swiftui-strange-empty-popover-near-textfield
+                    .textContentType(.password)
             }
             .textFieldStyle(.roundedBorder)
             .disableAutocorrection(true)
