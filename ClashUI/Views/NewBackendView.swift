@@ -25,18 +25,26 @@ struct NewBackendView: View {
 
     @State private var secret: String = ""
 
-    @FocusState private var isHostFocused: Bool
+    @FocusState private var isHostTextFieldFocused: Bool
 
-    @FocusState private var isPortFocused: Bool
+    @FocusState private var isPortTextFieldFocused: Bool
 
-    @State private var isHostErrorPresented: Bool = false
+    @State private var isHostErrorPopoverPresented: Bool = false
+
+    @State private var isBackendAlreadyExistsPopoverPresented: Bool = false
+
+    @State private var connectionFailedAlertPresented: Bool = false
+
+    @State private var connectionFailedMessage: String = ""
+
+    @State private var isAddingNewBackend: Bool = false
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             Form {
                 TextField("Host", text: $host, prompt: Text("Required"))
-                    .focused($isHostFocused)
-                    .popover(isPresented: $isHostErrorPresented, arrowEdge: .trailing) {
+                    .focused($isHostTextFieldFocused)
+                    .popover(isPresented: $isHostErrorPopoverPresented, arrowEdge: .trailing) {
                         Label {
                             Text("Host Error")
                         } icon: {
@@ -47,7 +55,7 @@ struct NewBackendView: View {
                     }
 
                 TextField("Port", value: $port, formatter: portFormatter, prompt: Text("Required"))
-                    .focused($isPortFocused)
+                    .focused($isPortTextFieldFocused)
 
                 SecureField("Secret", text: $secret, prompt: Text("Optional"))
                     // Set the content type to .password to avoid empty popover bug
@@ -60,47 +68,91 @@ struct NewBackendView: View {
             HStack {
                 Spacer()
 
-                Button(action: addBackend) {
+                if isAddingNewBackend {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(0.5)
+                }
+
+                Button {
+                    Task {
+                        isAddingNewBackend = true
+                        await addBackend()
+                        isAddingNewBackend = false
+                    }
+                } label: {
                     Text("Add")
                         .padding()
                 }
+                .padding(.vertical, 10)
                 .keyboardShortcut(.return)
+                .disabled(isAddingNewBackend)
+                .popover(isPresented: $isBackendAlreadyExistsPopoverPresented, arrowEdge: .bottom) {
+                    Label {
+                        Text("Backend Already Exists")
+                    } icon: {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .foregroundColor(.yellow)
+                    }
+                    .padding(10)
+                }
             }
         }
         .padding()
         .frame(width: 300)
+        .alert("Connection Failed", isPresented: $connectionFailedAlertPresented) {
+            Button("OK") {}
+        } message: {
+            Text(connectionFailedMessage)
+        }
     }
 
-    private func addBackend() {
+    private func addBackend() async {
         guard !host.isEmpty else {
-            isHostFocused = true
+            isHostTextFieldFocused = true
             return
         }
 
         guard validateHost() else {
-            isHostFocused = true
-            isHostErrorPresented = true
+            isHostTextFieldFocused = true
+            isHostErrorPopoverPresented = true
             return
         }
 
         guard port != 0 else {
-            isPortFocused = true
+            isPortTextFieldFocused = true
             return
         }
 
-        // TODO: De-duplication
-
-        // TODO: Test connection
-
-        guard Backend(context: viewContext,
-                      index: try? viewContext.count(for: Backend.fetchRequest()),
-                      host: host,
-                      port: Int(port)) != nil
-        else {
-            // TODO: Handle error
+        // De-duplication
+        let request = Backend.fetchRequest()
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "%K == %@", NSExpression(forKeyPath: \Backend.host).keyPath, host),
+            NSPredicate(format: "%K == %d", NSExpression(forKeyPath: \Backend.port).keyPath, port),
+        ])
+        guard let count = try? viewContext.count(for: request), count == 0 else {
+            isHostTextFieldFocused = true
+            isBackendAlreadyExistsPopoverPresented = true
             return
         }
 
+        // Create an instance, but do NOT insert into the database
+        let backend = Backend(entity: .entity(forEntityName: "Backend", in: viewContext)!, insertInto: nil)
+        backend.index = Int64((try? viewContext.count(for: Backend.fetchRequest())) ?? 0)
+        backend.host = host
+        backend.port = Int32(port)
+
+        // Test connectivity
+        do {
+            try await backend.getInfo()
+        } catch {
+            connectionFailedAlertPresented = true
+            connectionFailedMessage = error.localizedDescription
+            return
+        }
+
+        // Insert into the database
+        viewContext.insert(backend)
         try? viewContext.save()
     }
 

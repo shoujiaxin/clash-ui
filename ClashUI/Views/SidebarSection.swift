@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+private let headerFontSize: CGFloat = 11
+
 // TODO: Add view
 private let tabs = [
     (name: "Overview", iconName: "chart.xyaxis.line"),
@@ -24,7 +26,13 @@ struct SidebarSection: View {
 
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var isVersionPresented = false
+    @State private var isVersionPresented: Bool = false
+
+    @State private var connectionFailed: Bool = false
+
+    @State private var connectionFailedAlertPresented: Bool = false
+
+    @State private var connectionFailedMessage: String = ""
 
     var body: some View {
         // If use Section here, app will crash when deleting the last item
@@ -43,16 +51,14 @@ struct SidebarSection: View {
             header
         }
         .onAppear {
-            Task {
-                try await backend.updateVersion()
-            }
+            Task { await updateBackendInfo() }
         }
     }
 
     private var header: some View {
         HStack {
             Text("\(backend.host ?? ""):\(String(backend.port))")
-                .font(.system(size: 11, weight: .medium, design: .default))
+                .font(.system(size: headerFontSize, weight: .medium, design: .default))
 
             Button {
                 isVersionPresented.toggle()
@@ -60,14 +66,33 @@ struct SidebarSection: View {
                 Image(systemName: "info.circle")
             }
             .buttonStyle(.plain)
-            .font(.system(size: 11))
+            .font(.system(size: headerFontSize))
             .popover(isPresented: $isVersionPresented) {
                 VersionPopover(isPremium: backend.isPremium, version: backend.version ?? "")
+            }
+
+            Spacer()
+
+            if connectionFailed {
+                Image(systemName: "bolt.horizontal.circle")
+                    .font(.system(size: headerFontSize))
             }
         }
         .foregroundColor(.secondary)
         .contentShape(Rectangle())
         .contextMenu {
+            Button {
+                Task {
+                    await updateBackendInfo()
+                    connectionFailedAlertPresented = connectionFailed
+                }
+            } label: {
+                Text("Connect")
+            }
+            .disabled(!connectionFailed)
+
+            Divider()
+
             Button {
                 if selection?.starts(with: "\(backend.id)") == true {
                     selection = nil
@@ -81,6 +106,21 @@ struct SidebarSection: View {
                 Text("Remove")
             }
             .keyboardShortcut("d", modifiers: .command)
+        }
+        .alert("Connection Failed", isPresented: $connectionFailedAlertPresented) {
+            Button("OK") {}
+        } message: {
+            Text(connectionFailedMessage)
+        }
+    }
+
+    private func updateBackendInfo() async {
+        do {
+            try await backend.getInfo()
+            connectionFailed = false
+        } catch {
+            connectionFailed = true
+            connectionFailedMessage = error.localizedDescription
         }
     }
 }

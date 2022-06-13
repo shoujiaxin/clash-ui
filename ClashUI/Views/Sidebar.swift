@@ -22,9 +22,10 @@ struct Sidebar: View {
                     SidebarSection(backend: backend, selection: $selection)
                 }
                 .onMove { source, destination in
-                    source.first.map { index in
-                        backends[index].index = Int64(destination)
-                        try? viewContext.save()
+                    var items = backends.map { $0 }
+                    items.move(fromOffsets: source, toOffset: destination)
+                    zip(items, items.indices).forEach { item, index in
+                        item.index = Int64(index)
                     }
                 }
             }
