@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 
 class Backend: NSManagedObject {
-    // TODO: Connection status
+    @Published private(set) var status: ConnectionStatus = .disconnected
 
     private var url: URL? {
         guard let host = host else {
@@ -38,6 +38,12 @@ class Backend: NSManagedObject {
 }
 
 extension Backend {
+    enum ConnectionStatus {
+        case connected
+        case disconnected
+        case unavailable(Error)
+    }
+
     enum Error: Swift.Error {
         case url
         case badRequest
