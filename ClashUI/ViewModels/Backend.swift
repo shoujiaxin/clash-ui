@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 
-extension Backend {
+class Backend: NSManagedObject {
     // TODO: Connection status
 
     private var url: URL? {
