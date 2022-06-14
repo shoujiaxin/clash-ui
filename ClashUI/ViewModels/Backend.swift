@@ -51,10 +51,23 @@ class Backend: NSManagedObject {
 }
 
 extension Backend {
-    enum ConnectionStatus {
+    enum ConnectionStatus: Equatable {
         case connected
         case disconnected
         case unavailable(Swift.Error)
+
+        static func == (lhs: Backend.ConnectionStatus, rhs: Backend.ConnectionStatus) -> Bool {
+            switch (lhs, rhs) {
+            case (connected, connected):
+                return true
+            case (disconnected, disconnected):
+                return true
+            case (unavailable(_), unavailable(_)):
+                return true
+            default:
+                return false
+            }
+        }
     }
 
     enum Error: LocalizedError {

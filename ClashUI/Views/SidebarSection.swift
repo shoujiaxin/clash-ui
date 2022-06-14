@@ -28,8 +28,6 @@ struct SidebarSection: View {
 
     @State private var isVersionPresented: Bool = false
 
-    @State private var connectionFailed: Bool = false
-
     @State private var connectionFailedAlertPresented: Bool = false
 
     @State private var connectionFailedMessage: String = ""
@@ -49,9 +47,6 @@ struct SidebarSection: View {
             .onMove(perform: nil)
         } label: {
             header
-        }
-        .onAppear {
-            Task { await updateBackendInfo() }
         }
     }
 
@@ -73,7 +68,7 @@ struct SidebarSection: View {
 
             Spacer()
 
-            if connectionFailed {
+            if backend.status != .connected {
                 Image(systemName: "bolt.horizontal.circle")
                     .font(.system(size: headerFontSize))
             }
@@ -81,18 +76,6 @@ struct SidebarSection: View {
         .foregroundColor(.secondary)
         .contentShape(Rectangle())
         .contextMenu {
-            Button {
-                Task {
-                    await updateBackendInfo()
-                    connectionFailedAlertPresented = connectionFailed
-                }
-            } label: {
-                Text("Connect")
-            }
-            .disabled(!connectionFailed)
-
-            Divider()
-
             Button {
                 if selection?.starts(with: "\(backend.id)") == true {
                     selection = nil
@@ -111,16 +94,6 @@ struct SidebarSection: View {
             Button("OK") {}
         } message: {
             Text(connectionFailedMessage)
-        }
-    }
-
-    private func updateBackendInfo() async {
-        do {
-            try await backend.getInfo()
-            connectionFailed = false
-        } catch {
-            connectionFailed = true
-            connectionFailedMessage = error.localizedDescription
         }
     }
 }
