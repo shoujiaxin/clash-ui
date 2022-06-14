@@ -29,7 +29,8 @@ class Backend: NSManagedObject {
             throw Self.Error.noResponse
         }
         guard 200 ..< 300 ~= httpResponse.statusCode else {
-            throw Self.Error.badRequest(message: HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode))
+            throw Self.Error.badRequest(code: httpResponse.statusCode,
+                                        message: HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode))
         }
 
         let info = try JSONDecoder().decode(Info.self, from: data)
@@ -47,10 +48,21 @@ extension Backend {
         case unavailable(Error)
     }
 
-    enum Error: Swift.Error {
+    enum Error: LocalizedError {
         case url
-        case badRequest(message: String)
+        case badRequest(code: Int, message: String)
         case noResponse
+
+        var errorDescription: String? {
+            switch self {
+            case .url:
+                return "Wrong URL"
+            case let .badRequest(code, message):
+                return "\(code): \(message)"
+            case .noResponse:
+                return "No response from server"
+            }
+        }
     }
 
     struct Info: Codable {
