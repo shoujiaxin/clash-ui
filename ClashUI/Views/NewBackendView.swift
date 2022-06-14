@@ -143,17 +143,18 @@ struct NewBackendView: View {
         backend.port = Int32(port)
 
         // Test connectivity
-        do {
-            try await backend.getInfo()
-        } catch {
+        await backend.testConnectivity()
+        switch backend.status {
+        case .connected:
+            // Insert into the database
+            viewContext.insert(backend)
+            try? viewContext.save()
+        case .disconnected:
+            return
+        case let .unavailable(error):
             connectionFailedAlertPresented = true
             connectionFailedMessage = error.localizedDescription
-            return
         }
-
-        // Insert into the database
-        viewContext.insert(backend)
-        try? viewContext.save()
     }
 
     private func validateHost() -> Bool {
