@@ -39,13 +39,22 @@ class Backend: NSManagedObject {
 
         return info
     }
+
+    func testConnectivity() async {
+        do {
+            try await getInfo()
+            status = .connected
+        } catch {
+            status = .unavailable(error)
+        }
+    }
 }
 
 extension Backend {
     enum ConnectionStatus {
         case connected
         case disconnected
-        case unavailable(Error)
+        case unavailable(Swift.Error)
     }
 
     enum Error: LocalizedError {
