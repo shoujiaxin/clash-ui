@@ -25,8 +25,11 @@ class Backend: NSManagedObject {
         }
 
         let (data, response) = try await URLSession.shared.data(from: url)
-        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200 ..< 300 ~= statusCode else {
-            throw Self.Error.badRequest
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw Self.Error.noResponse
+        }
+        guard 200 ..< 300 ~= httpResponse.statusCode else {
+            throw Self.Error.badRequest(message: HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode))
         }
 
         let info = try JSONDecoder().decode(Info.self, from: data)
@@ -46,7 +49,8 @@ extension Backend {
 
     enum Error: Swift.Error {
         case url
-        case badRequest
+        case badRequest(message: String)
+        case noResponse
     }
 
     struct Info: Codable {
